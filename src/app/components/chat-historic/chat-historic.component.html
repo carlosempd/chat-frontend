@@ -1,0 +1,43 @@
+<div class="historic-container">
+    <h1>
+        Historial de Mensajes en 'Chat'
+    </h1>
+    <div class="historic-menu">
+        <button mat-button [matMenuTriggerFor]="menu"> menu <mat-icon> more_vert </mat-icon> </button>
+        <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="returnToChat()">Regresar al chat</button>
+        <button mat-menu-item (click)="goToRegister()">Salir</button>
+        </mat-menu>
+        
+    </div>
+    
+    
+    <mat-list role="list">
+    
+    <ng-container *ngFor="let message of messages">
+        <mat-list-item role="listitem">
+            <div fxLayout="row"  fxLayoutGap="20px">
+                <span>
+                    {{ message.name }}
+                </span>
+                
+                <span>
+                    {{ message.message }}
+                </span>
+                
+                <span>
+                    {{ message.date }}
+                </span>
+                
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        
+    </ng-container>
+    
+    
+    </mat-list>
+    
+
+
+</div>

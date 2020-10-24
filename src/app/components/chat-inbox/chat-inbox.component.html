@@ -46,8 +46,9 @@
               
             <button fxFlex="10" mat-button [matMenuTriggerFor]="menu"> <mat-icon>menu</mat-icon> </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="deleteMessages()">Borrar Mensajes <mat-icon> delete </mat-icon> </button>
-                <button mat-menu-item> Ver historial  <mat-icon> history </mat-icon> </button>
+                <button mat-menu-item (click)="deleteMessages()"> Borrar Mensajes <mat-icon> delete </mat-icon> </button>
+                <button mat-menu-item (click)="getHistoric()"> Ver historial  <mat-icon > history </mat-icon> </button>
+                <button mat-menu-item (click)="leave()"> Salir del Chat  <mat-icon > exit_to_app </mat-icon> </button>
             </mat-menu>
             </mat-toolbar>
         </p>

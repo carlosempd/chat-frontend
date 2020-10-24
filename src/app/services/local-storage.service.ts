@@ -24,4 +24,12 @@ export class LocalStorageService {
   removeUser() {
     this.localStorage.clear();
   }
+  
+  setData(data: string) {
+    this.localStorage.setItem('idRoom', data)
+  }
+  
+  getData(key: string): string {
+    return this.localStorage.getItem('idRoom');
+  }
 }

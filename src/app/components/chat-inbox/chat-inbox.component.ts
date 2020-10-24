@@ -6,10 +6,12 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as io from 'socket.io-client';
 import { User } from 'src/app/model/user.model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Message } from '../../model/message.model';
+import { ApiService } from '../../services/api.service';
 
 const SOCKET_ENDPOINT = 'localhost:3000';
 
@@ -22,11 +24,14 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
   user: User;
   connectedUsers: User[];
   chatMessages: Message[];
+  idRoom: string;
   socket;
   form: FormGroup;
   @ViewChild('chatBox') private chatBox: ElementRef;
 
-  constructor(private localStorage: LocalStorageService) { }
+  constructor(private localStorage: LocalStorageService,
+              private apiService: ApiService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.user = this.localStorage.getUser();
@@ -54,16 +59,24 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
    */
   send() {
     const message: Message = this.form.value;
-    this.form.setValue({ message: ''});
-
-    this.socket.emit('createMessage', message, (resp: Message) => {
-      console.log('Respuesta luego de envia: ', resp);
-
-      const newMessage: Message = { ...resp, me: this.user.name === resp.name };
-
-      this.chatMessages.push(newMessage);
-
-    });
+    
+    if (message.message.trim().length > 0) {
+      
+      this.form.setValue({ message: ''});
+  
+      this.socket.emit('createMessage', message, (resp: Message) => {
+        
+        if (!this.idRoom) {
+          this.idRoom = resp.idAddressee;
+          this.localStorage.setData(this.idRoom);
+        }
+  
+        const newMessage: Message = { ...resp, me: this.user.name === resp.name };
+  
+        this.chatMessages.push(newMessage);
+  
+      });
+    }
 
 
   }
@@ -71,11 +84,14 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
   setUpSocketConnection() {
     // Connect with backend socket
     this.socket = io(SOCKET_ENDPOINT);
-
+  
     // Notify new user to room
     this.socket.emit('enterChat', this.user, (resp: User[]) => {
-      this.updateUsersList(resp);
+
+        this.updateUsersList(resp);
+
     });
+      
 
     // Listen to Create Message (when send or receive message)
     this.socket.on('createMessage', (data: Message) => {
@@ -95,7 +111,7 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
    *  ChatInboxComponent
    */
   updateUsersList(users: User[]) {
-    this.connectedUsers = users;
+    this.connectedUsers = [... new Set(users)];
   }
 
   setFxLayoutAlign(message: Message) {
@@ -115,6 +131,18 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
   
   deleteMessages() {
     this.chatMessages = [];
+  }
+  
+  leave() {
+    this.localStorage.removeUser();
+    this.socket.close();
+    this.router.navigate(['chat-register']);
+  }
+  
+  getHistoric() {
+    
+    this.socket.close();
+    this.router.navigate(['chat-historic']);
   }
 
 }
