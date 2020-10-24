@@ -1,8 +1,14 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import *  as io from 'socket.io-client';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as io from 'socket.io-client';
 import { User } from 'src/app/model/user.model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Message } from '../../model/message.model';
 
 const SOCKET_ENDPOINT = 'localhost:3000';
@@ -93,7 +99,10 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
   }
 
   setFxLayoutAlign(message: Message) {
-    const fxLayoutAlign: string = message.name === this.user.name ? 'end end' : 'start start';
+    const fxLayoutAlign: string = 
+      message.name === this.user.name ? 
+        'end end' :
+        'start start';
 
     return fxLayoutAlign;
   }
@@ -102,6 +111,10 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
     const fullDate = new Date(date)
 
     return `${ fullDate.getHours() }:${ fullDate.getMinutes() }`;
+  }
+  
+  deleteMessages() {
+    this.chatMessages = [];
   }
 
 }

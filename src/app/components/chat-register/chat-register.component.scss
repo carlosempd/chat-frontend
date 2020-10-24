@@ -29,8 +29,18 @@
         margin: auto;
         padding: 40px;
     }
+    
+    .card-lg {
+        height: 30em;
+        width: 30em;
+    }
 
     .enter-button {
         border-radius: 20px;
+    }
+    
+    .form-input {
+        font-size: larger;
+        width: 300px;
     }
 }
