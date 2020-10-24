@@ -1,0 +1,95 @@
+<div class="chat-container"  fxLayout="row" fxLayoutAlign="center start" >
+
+    <!-- Left Panel - Connected Users -->
+    <div class="users-list" fxFlex="35">
+        <mat-list role="list" fxLayout="column"  fxLayoutGap="10px">
+            <div class="search">
+                <input class="search-input p-20" type="text" placeholder="Buscar Contacto">
+                <mat-icon class="search-icon">search</mat-icon>
+            </div>
+
+            <mat-list-item role="listitem">
+                <span>Sala "{{ user.room }}"</span>
+            </mat-list-item>
+
+
+            <ng-container *ngFor="let user of connectedUsers">
+                <mat-list-item role="listitem">
+                    <img width="45" src="assets/images/users/1.jpg" alt="user-img" class="img-circle">
+                    <div fxLayout="column" fxLayoutAlign="space-between center">
+                        {{ user.name }} 
+                        <small class="text-success">online</small>
+    
+                    </div>
+                </mat-list-item>
+                <mat-divider class="user-divider" ></mat-divider>
+
+            </ng-container>
+        </mat-list>
+
+    </div>
+        
+    <mat-divider [vertical]="true" class="divider"></mat-divider>
+    
+    <!-- Right panel - Messages -->
+    <div class="messages-container"  fxFlex="65" fxLayout="column">
+        <p class="pt">
+            <mat-toolbar class="toolbar">
+              <span>Chat</span>
+            </mat-toolbar>
+        </p>
+
+        <!-- Messages Box -->
+        <div class="chat-box" fxLayout="column" fxLayoutGap="15px" #chatBox>
+
+            <!-- Message -->
+            <div *ngFor="let message of chatMessages">
+                <div class="message" fxLayout="row" [fxLayoutAlign]="setFxLayoutAlign(message)" fxLayoutGap="5px">
+
+                    <div *ngIf="message.name !== user.name" class="text-image" fxLayout="row" fxLayoutAlign="start end">
+
+                        <span class="text-time">{{ getMessageTime(message.date) }}</span>
+                        <img *ngIf="message.name !== 'Admin'" width="40" src="assets/images/users/4.jpg" alt="user-img" class="img-circle">
+        
+                        
+                    </div>
+
+                    <div>
+                        <span class="text-user" [fxLayoutAlign]="setFxLayoutAlign(message)">{{ message.name }}</span>
+                        <mat-card class="text" [ngClass]="{'text-card': message.name === user.name, 'text-card-received':  message.name !== user.name, 'admin': message.name === 'Admin'}">
+                            {{ message.message }}
+                        </mat-card>
+                    </div>
+        
+                    <div *ngIf="message.name === user.name" class="text-image" fxLayout="row" fxLayoutAlign="end end">
+                        <img *ngIf="message.name !== 'Admin'" width="40" src="assets/images/users/2.jpg" alt="user-img" class="img-circle">
+        
+                        <span class="text-time">{{ getMessageTime(message.date) }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Send Messages Form -->
+        <form class="send-form" fxLayout="row" (ngSubmit)="send()" fxLayoutAlign="start start" fxLayoutGap="10px" [formGroup]="form"> 
+            <mat-form-field fxFlex="90" fxFlex.lt-md="85"  fxFlex.xs="70">
+                <input matInput autocomplete="off" type="text" name="message" placeholder="Escribe un mensaje" formControlName="message"> 
+            </mat-form-field>
+
+            <div fxFlex="5" fxFlex.lt-md="10" fxFlex.xs="15">
+                <button type="submit" mat-fab color="primary">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+
+        </form>
+
+
+
+    </div>
+
+</div>

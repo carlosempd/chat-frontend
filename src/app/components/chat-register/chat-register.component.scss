@@ -1,0 +1,36 @@
+:host {
+    .register-container {
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        
+        padding-top: 10px;
+        
+        background-image: url(../../../assets/images/background/login-register.jpg);
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+    }
+
+    .card-container {
+        margin-top: 20px;
+    }
+
+    .register {
+        width: fit-content;
+        margin: auto;
+        padding: 40px;
+    }
+
+    .enter-button {
+        border-radius: 20px;
+    }
+}

@@ -1,0 +1,30 @@
+<div class="register-container">
+    <h1 fxLayout="row" fxLayoutAlign="center center">Chat</h1>
+    
+    <div class="card-container">
+        <mat-card class="register" fxLayout="row" fxLayoutAlign="center center">
+            <form (ngSubmit)="enter()" [formGroup]="form" fxLayout="column" novalidate fxLayoutAlign="space-around center" fxLayoutGap="20px">
+                <mat-form-field>
+                    <mat-label> Nombre </mat-label>
+                    <input matInput autocomplete="off" type="text" name="name" placeholder="Nombre" formControlName="name">
+                    <mat-error *ngIf="form.get('name').hasError('required')">Es necesario que ingrese su nombre</mat-error>
+                    <mat-hint> Ingrese su nombre </mat-hint>
+    
+    
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-label>Sala</mat-label>
+                    <input matInput autocomplete="off" type="text" name="room" placeholder="Sala"  formControlName="room">
+                    <mat-error *ngIf="form.get('room').hasError('required')">Es necesario que ingrese la sala a la que desea entrar.</mat-error>
+                    <mat-hint> Ingrese el nombre de la sala </mat-hint>
+    
+                </mat-form-field>
+    
+                <button class="enter-button" type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Ingresar</button>
+            </form>
+        </mat-card>
+    
+    </div>
+
+</div>
