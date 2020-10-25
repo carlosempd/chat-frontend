@@ -9,6 +9,12 @@ Tanto en la pantalla de chat como la de historial, en la parte superior derecha 
 
 La vista de historial se implemento para realizar peticiones al backend, consultar la data a la DB y visualizar los datos en una lista sencilla.
 
+Este proyecto se ha construido con:
+- Angular
+- Angular Material
+- Angular Flex Layout
+- Socket Client
+
 ## Development server
 
 Ejecutar `ng serve` para correr el server en modo de desarrollo. Navegar a `http://localhost:4200/`. 
