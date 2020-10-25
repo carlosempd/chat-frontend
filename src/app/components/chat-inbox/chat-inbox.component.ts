@@ -22,6 +22,7 @@ const SOCKET_ENDPOINT = 'localhost:3000';
 })
 export class ChatInboxComponent implements OnInit, AfterViewChecked {
   user: User;
+  currentUser: User;
   connectedUsers: User[];
   chatMessages: Message[];
   idRoom: string;
@@ -68,7 +69,7 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
         
         if (!this.idRoom) {
           this.idRoom = resp.idAddressee;
-          this.localStorage.setData(this.idRoom);
+          this.localStorage.setIdRoom(this.idRoom);
         }
   
         const newMessage: Message = { ...resp, me: this.user.name === resp.name };
@@ -87,8 +88,11 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
   
     // Notify new user to room
     this.socket.emit('enterChat', this.user, (resp: User[]) => {
-
-        this.updateUsersList(resp);
+      const userNew = resp.filter(user => user.name === this.user.name)[0];
+      this.currentUser = userNew;
+      this.localStorage.setData(userNew.id, userNew.id);
+      
+      this.updateUsersList(resp);
 
     });
       
@@ -111,9 +115,20 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
    *  ChatInboxComponent
    */
   updateUsersList(users: User[]) {
+    
+    const sameName = users.filter(user => user.name === this.user.name);
+    console.log('MISMO: ', sameName);
+    
     this.connectedUsers = [... new Set(users)];
   }
-
+  
+  /**
+   * set align depending if is receiving or sending message
+   *
+   * @param {Message} message
+   * @returns
+   * @memberof ChatInboxComponent
+   */
   setFxLayoutAlign(message: Message) {
     const fxLayoutAlign: string = 
       message.name === this.user.name ? 
@@ -122,23 +137,46 @@ export class ChatInboxComponent implements OnInit, AfterViewChecked {
 
     return fxLayoutAlign;
   }
-
+  
+  /**
+   * Returns message time in format hours:seconds
+   *
+   * @param {number} date
+   * @returns
+   * @memberof ChatInboxComponent
+   */
   getMessageTime(date: number) {
     const fullDate = new Date(date)
 
     return `${ fullDate.getHours() }:${ fullDate.getMinutes() }`;
   }
   
+  /**
+   * delete all messages
+   *
+   * @memberof ChatInboxComponent
+   */
   deleteMessages() {
     this.chatMessages = [];
   }
   
+  /**
+   * Leave the chat
+   *
+   * @memberof ChatInboxComponent
+   */
   leave() {
-    this.localStorage.removeUser();
+    this.localStorage.removeData(this.currentUser.id);
+    
     this.socket.close();
     this.router.navigate(['chat-register']);
   }
   
+  /**
+   * See historic messages record
+   *
+   * @memberof ChatInboxComponent
+   */
   getHistoric() {
     
     this.socket.close();

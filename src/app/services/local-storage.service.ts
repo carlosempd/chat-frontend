@@ -21,15 +21,27 @@ export class LocalStorageService {
     };
   }
 
-  removeUser() {
+  removeAll() {
     this.localStorage.clear();
   }
   
-  setData(data: string) {
+  setIdRoom(data: string) {
     this.localStorage.setItem('idRoom', data)
   }
   
-  getData(key: string): string {
+  getIdRoom(): string {
     return this.localStorage.getItem('idRoom');
+  }
+  
+  setData(key: string, value) {
+    this.localStorage.setItem(key, value);
+  }
+  
+  getData(key: string) {
+    return this.localStorage.getItem(key);
+  }
+  
+  removeData(key: string) {
+    this.localStorage.removeItem(key);
   }
 }

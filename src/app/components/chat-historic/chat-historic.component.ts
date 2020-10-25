@@ -24,7 +24,7 @@ export class ChatHistoricComponent implements OnInit {
   }
   
   returnToChat() {
-    this.router.navigate(['chat-inbox']);
+    // Return to Chat
   }
 
 }

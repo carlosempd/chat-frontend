@@ -12,7 +12,7 @@ export class MessageResolver implements Resolve<Message[]> {
                 private localStorage: LocalStorageService) { }
     
     resolve(route: ActivatedRouteSnapshot): Observable<Message[]> | Promise<Message[]> | Message[] {
-        const idRoom: string = this.localStorage.getData('idRoom');
+        const idRoom: string = this.localStorage.getIdRoom();
         
         return this.apiService.getMessages(idRoom).
             pipe(

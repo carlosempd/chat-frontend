@@ -10,10 +10,6 @@
         max-height: calc(90vh - 5px);
     }
 
-    .chat-box { 
-        min-height: 400px;
-        max-height: 75vh;
-    }
     .search {
         position: sticky;
     }
@@ -103,7 +99,10 @@
         overflow-y: scroll;
         margin-top: 10px;
         margin-bottom: 10px;
-    }
+        height: 80vh;
+        min-height: 400px;
+        max-height: 75vh;
+}
 
     .pt {
         margin-bottom: 0px;

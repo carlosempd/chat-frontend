@@ -5,8 +5,7 @@
     <div class="historic-menu">
         <button mat-button [matMenuTriggerFor]="menu"> menu <mat-icon> more_vert </mat-icon> </button>
         <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="returnToChat()">Regresar al chat</button>
-        <button mat-menu-item (click)="goToRegister()">Salir</button>
+        <button mat-menu-item (click)="goToRegister()">Salir <mat-icon > exit_to_app </mat-icon> </button>
         </mat-menu>
         
     </div>
